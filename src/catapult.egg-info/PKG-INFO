@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: catapult
+Version: 0.0.1.dev0
+Summary: Reading Parquet files with sql using Ballista
+Home-page: UNKNOWN
+Author: zhujw
+Author-email: kratoswittgenstein@gmail.com
+License: Apache
+Keywords: parquet sql Ballista
+Platform: UNKNOWN
+
+Reading Parquet files with sql using Ballista
+

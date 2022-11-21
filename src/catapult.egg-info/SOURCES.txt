@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+catapult/__init__.py
+catapult.egg-info/PKG-INFO
+catapult.egg-info/SOURCES.txt
+catapult.egg-info/dependency_links.txt
+catapult.egg-info/entry_points.txt
+catapult.egg-info/top_level.txt
+catapult.egg-info/zip-safe
