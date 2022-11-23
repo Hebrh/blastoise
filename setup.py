@@ -14,7 +14,7 @@ Reading Parquet files with sql using Ballista""",
       author_email='kratoswittgenstein@gmail.com',
       url='',
       license='Apache',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      packages=find_packages(),
       include_package_data=True,
       zip_safe=True,
       install_requires=[
