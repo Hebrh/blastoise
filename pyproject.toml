@@ -10,17 +10,20 @@ authors = [
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: Apache 2 License",
+  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
 dependencies = [
-  pyarrow==10.0.0
-  pandas==1.5.2
+  "pyarrow==10.0.0",
+  "pandas==1.5.2"
 ]
 description = 'stream parquet dataset from filesystem'
 name = 'blastoise'
 version = '0.0.1'
 
+[project.urls]
+"Bug Tracker" = "https://github.com/Hebrh/blastoise/issues"
+"Homepage" = "https://github.com/Hebrh/blastoise"
 
 [tool.setuptools.packages.find]
 where = ["src"]

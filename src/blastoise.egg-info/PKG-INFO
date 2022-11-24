@@ -1,11 +1,16 @@
 Metadata-Version: 2.1
 Name: blastoise
-Version: 0.0.1.dev0
-Summary: Stream parquet dataset from filesystem
-Home-page: 
+Version: 0.0.1
+Summary: stream parquet dataset from filesystem
+Home-page: https://github.com/Hebrh/blastoise
 Author: zhujw
 Author-email: zhujw <kratoswittgenstein@qq.com>
+License: MIT License
+Project-URL: Bug Tracker, https://github.com/Hebrh/blastoise/issues
+Project-URL: Homepage, https://github.com/Hebrh/blastoise
 Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved :: Apache 2 License
+Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 License-File: LICENSE
+
+Blastoise is a python tool lib that helps reading and querying data from parquet files. After querying, you can stroe it in Plasma memory map and do some futher calculations.
