@@ -41,6 +41,22 @@ class FileInfo():
         self._hadoop = hadoop
         self._children = []
 
+    @classmethod
+    def repo(cls, path: str):
+        """Static builder for repo path"""
+        local = fs.LocalFileSystem()
+        selector = fs.FileSelector(path, allow_not_found=True, recursive=True)
+        file_infos = local.get_file_info(selector)
+        parent_directory = FileInfo(path, directory=True)
+        for file_info in file_infos:
+            is_dir = file_info.type == FileType.Directory
+            if is_dir:
+                size = 0
+            else:
+                size = file_info.size
+            parent_directory.add_child(file_info.path, size, is_dir)
+        return parent_directory
+
     def is_dir(self) -> bool:
         """Whether it's directory."""
         return self._directory
@@ -108,6 +124,8 @@ class FileInfo():
                 file_group = []
                 total_size = 0
                 total_more_size = 0
+            if len(file_group) > 0:
+                split_files.append(file_group)
 
         return split_files
 
@@ -115,23 +133,12 @@ class FileInfo():
         return f"FileInfo:[path={self.name}, id_dir={self._directory}, hier={self._hierarchy}," \
             f"size={self.size}, hadoop={self._hadoop}, child={self._children}]"
 
+    @classmethod
+    def list_path(cls, path: str) -> list:
+        """List file paths in a parent directory.
+        or empty list if 'path' not exists.
 
-def list_path(path: str) -> list:
-    """List file paths in a parent directory.
-    or empty list if 'path' not exists.
-
-    Args:
-        path (str): a file path
-    """
-    local = fs.LocalFileSystem()
-    selector = fs.FileSelector(path, allow_not_found=True, recursive=True)
-    file_infos = local.get_file_info(selector)
-    parent_directory = FileInfo(path, directory=True)
-    for file_info in file_infos:
-        is_dir = file_info.type == FileType.Directory
-        if is_dir:
-            size = 0
-        else:
-            size = file_info.size
-        parent_directory.add_child(file_info.path, size, is_dir)
-    return parent_directory.list_dir()
+        Args:
+            path (str): a file path
+        """
+        return cls.repo(path).list_dir()
