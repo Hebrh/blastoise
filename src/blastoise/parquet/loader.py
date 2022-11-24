@@ -1,8 +1,8 @@
 """Paruqet metadata loader."""
 from pyarrow import dataset as ds
 
-from catapult.fs import FileInfo, Hierarchy
-from catapult.util import dir_to_name
+from blastoise.fs import FileInfo, Hierarchy
+from blastoise.util import dir_to_name
 from .exception import RepoDirectoryCantLoadAloneEception
 
 

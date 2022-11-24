@@ -1,8 +1,8 @@
 """Test ParquetLoader."""
 import pytest
 
-from catapult.fs import list_path
-from catapult.parquet import ParquetLoader
+from blastoise.fs import list_path
+from blastoise.parquet import ParquetLoader
 
 
 @pytest.mark.parametrize("dir_path",

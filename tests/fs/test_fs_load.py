@@ -1,7 +1,7 @@
 """Test flow."""
 import pytest
 
-from catapult.fs import list_path
+from blastoise.fs import list_path
 
 
 @pytest.mark.parametrize("dir_path",

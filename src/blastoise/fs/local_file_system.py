@@ -2,7 +2,7 @@
 from pyarrow import fs
 from pyarrow.fs import FileType
 
-from catapult import MAX_FILES_SIZE
+from blastoise import MAX_FILES_SIZE
 from .exception import FileInfoNotReasonable
 from .hierarchy import Hierarchy
 

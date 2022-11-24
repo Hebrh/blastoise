@@ -1,15 +1,11 @@
 Metadata-Version: 2.1
-Name: catapult
+Name: blastoise
 Version: 0.0.1.dev0
-Summary: Reading Parquet files with sql using Ballista
+Summary: Stream parquet dataset from filesystem
 Home-page: 
 Author: zhujw
 Author-email: zhujw <kratoswittgenstein@qq.com>
-License: Apache
-Keywords: parquet sql Ballista
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: Apache 2 License
 Classifier: Operating System :: OS Independent
 License-File: LICENSE
-
-Reading Parquet files with sql using Ballista
