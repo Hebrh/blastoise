@@ -12,4 +12,4 @@ def test_load_parquet(dir_path):
     repo_info = FileInfo.repo(dir_path)
     loaders = ParquetLoader.load_repo(repo_info)
     assert len(loaders) == 27
-    assert len(loaders[len(loaders) - 1].dataset) > 15
+    assert len(loaders[len(loaders) - 1].dataset) > 2
