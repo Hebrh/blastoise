@@ -10,6 +10,8 @@ from .hierarchy import Hierarchy
 class FileInfo():
     """Simple file info data."""
 
+    buf = MAX_FILES_SIZE
+
     # pylint: disable = too-many-arguments
     def __init__(
         self, name: str, size: int=0,
@@ -100,7 +102,7 @@ class FileInfo():
     def spllit_dir(self) -> list:
         """Split children file list by MAX_FILES_SIZE."""
         if self._hierarchy == Hierarchy.SET:
-            max_size = MAX_FILES_SIZE
+            max_size = FileInfo.buf
             files = self._children
             split_files = []
             file_group = []
@@ -118,6 +120,9 @@ class FileInfo():
                     i += 1
                     continue
                 if total_more_size - max_size < max_size - total_size:
+                    file_group.append(file)
+                    i += 1
+                elif total_size == 0:
                     file_group.append(file)
                     i += 1
                 split_files.append(file_group)
