@@ -2,6 +2,7 @@
 from pyarrow import fs
 from pyarrow.fs import FileType
 
+from catapult import MAX_FILES_SIZE
 from .exception import FileInfoNotReasonable
 from .hierarchy import Hierarchy
 
@@ -9,8 +10,9 @@ from .hierarchy import Hierarchy
 class FileInfo():
     """Simple file info data."""
 
+    # pylint: disable = too-many-arguments
     def __init__(
-        self, name: str,
+        self, name: str, size: int=0,
         hierarchy: Hierarchy=Hierarchy.REPO,
         directory: bool=False,
         hadoop: bool=False
@@ -30,6 +32,10 @@ class FileInfo():
         if name.endswith("/"):
             name = name[0: len(name) - 1]
         self.name = name
+        if size == 0:
+            self.size = 0
+        else:
+            self.size = size / (1024 * 1024 * 1.0)
         self._hierarchy = hierarchy
         self._directory = directory
         self._hadoop = hadoop
@@ -39,11 +45,15 @@ class FileInfo():
         """Whether it's directory."""
         return self._directory
 
+    def hierarchy(self) -> Hierarchy:
+        """Getter for hierarchy."""
+        return self._hierarchy
+
     def descend_hierarchy(self, directory: bool) -> Hierarchy:
         """Descend hierarchy."""
         return self._hierarchy.descend(directory=directory, hadoop=self._hadoop)
 
-    def add_child(self, name: str, directory: bool) -> None:
+    def add_child(self, name: str, size: int, directory: bool) -> None:
         """Add child for directory.
 
         Args:
@@ -59,10 +69,11 @@ class FileInfo():
             tail_child = self._children[child_count - 1]
             # tail add child
             if tail_child.is_dir() and name.startswith(tail_child.name + "/"):
-                tail_child.add_child(name, directory)
+                tail_child.add_child(name, size, directory)
                 return
 
-        self._children.append(FileInfo(name, hierarchy=self.descend_hierarchy(directory), directory=directory))
+        self._children.append(FileInfo(name,  size, hierarchy=self.descend_hierarchy(directory),
+                    directory=directory))
 
     def list_dir(self) -> list:
         """List the directory.
@@ -70,9 +81,39 @@ class FileInfo():
         """
         return self._children
 
+    def spllit_dir(self) -> list:
+        """Split children file list by MAX_FILES_SIZE."""
+        if self._hierarchy == Hierarchy.SET:
+            max_size = MAX_FILES_SIZE
+            files = self._children
+            split_files = []
+            file_group = []
+            total_size = 0
+            total_more_size = 0
+
+            i = 0
+            f_len = len(files)
+            while i < f_len:
+                file = files[i]
+                total_more_size += total_size + file.size
+                if total_more_size <= max_size:
+                    file_group.append(file)
+                    total_size = total_more_size
+                    i += 1
+                    continue
+                if total_more_size - max_size < max_size - total_size:
+                    file_group.append(file)
+                    i += 1
+                split_files.append(file_group)
+                file_group = []
+                total_size = 0
+                total_more_size = 0
+
+        return split_files
+
     def __repr__(self) -> str:
         return f"FileInfo:[path={self.name}, id_dir={self._directory}, hier={self._hierarchy}," \
-            f"hadoop={self._hadoop}, child={self._children}]"
+            f"size={self.size}, hadoop={self._hadoop}, child={self._children}]"
 
 
 def list_path(path: str) -> list:
@@ -87,5 +128,10 @@ def list_path(path: str) -> list:
     file_infos = local.get_file_info(selector)
     parent_directory = FileInfo(path, directory=True)
     for file_info in file_infos:
-        parent_directory.add_child(file_info.path, file_info.type == FileType.Directory)
+        is_dir = file_info.type == FileType.Directory
+        if is_dir:
+            size = 0
+        else:
+            size = file_info.size
+        parent_directory.add_child(file_info.path, size, is_dir)
     return parent_directory.list_dir()
