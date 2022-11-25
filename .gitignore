@@ -1,15 +1,49 @@
-.git
-
-__pycache__
-.env
-.venv
-.pytest_cache
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
 
 # egg info
-**/*.egg-info/
+*.egg-info/
+*.egg
 
 # ds store
 .DS_Store
 
 # vscode settting
 .vscode
+
+# python igore
+build/
+__pycache__/
+dist/
+
+# Sphinx documentation
+docs/_build/
+
+# C extensions
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
