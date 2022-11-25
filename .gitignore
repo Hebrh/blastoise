@@ -4,3 +4,12 @@ __pycache__
 .env
 .venv
 .pytest_cache
+
+# egg info
+**/*.egg-info/
+
+# ds store
+.DS_Store
+
+# vscode settting
+.vscode
