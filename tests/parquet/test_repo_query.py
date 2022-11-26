@@ -33,3 +33,4 @@ def test_repo_query(path):
     # assert len(df2.index) == 20480000
     # assert time1 < time2
     assert  time1 < 0.5
+    assert False
