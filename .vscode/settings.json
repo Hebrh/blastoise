@@ -1,0 +1,24 @@
+{
+    "terminal.integrated.env.linux": {
+      "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/.env/lib/python3.10/site-packages"
+    },
+    "terminal.integrated.env.osx": {
+      "PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/.env/lib/python3.10/site-packages"
+    },
+    "editor.tabSize": 4,
+    "isort.args": [
+      "--profile",
+      "black"
+    ],
+    "editor.fontFamily": "'JetBrains Mono', 'LXGW WenKai','Noto Sans CJK SC'",
+    "editor.defaultFormatter": "ms-python.python",
+    "python.formatting.provider": "black",
+    "editor.fontSize": 14.5,
+    "python.analysis.extraPaths": [
+      "${workspaceFolder}/src"
+    ],
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "aiXcoder.showTrayIcon": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+  }

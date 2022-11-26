@@ -7,7 +7,7 @@ import pytest
 from blastoise.parquet import Repo
 
 
-@pytest.mark.parametrize("path", [("/home/kratos/python_projects/x-extract/datasets/mock_data/")])
+@pytest.mark.parametrize("path", [("/home/kratos/mock_data/")])
 def test_repo_query(path):
     """Test Query for Repo."""
     repo = Repo(path)
