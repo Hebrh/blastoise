@@ -37,10 +37,6 @@ class ParquetLoader:
         if hier == Hierarchy.REPO:
             raise RepoDirectoryCantLoadAloneEception()
 
-        if hier == Hierarchy.SET:
-            return [ds.dataset([info.name for info in file_group], format="parquet") \
-                    for file_group in file_info.spllit_dir()]
-
         return [ds.dataset(file_info.name, format="parquet")]
 
     @classmethod
