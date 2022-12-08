@@ -9,72 +9,36 @@ from blastoise.parquet import Repo
 repo = Repo('./datasets/mock_data/')
 
 @pytest.mark.benchmark(
-    group='Read 1000 times'
+    group='Read 10 times'
 )
 def test_benchmark_one(benchmark):
     """Test Query for Repo."""
 
-    benchmark.pedantic(repo.query, args=("mock_dir_one",), kwargs={}, iterations=1000, rounds=100)
+    benchmark.pedantic(repo.query, args=("mock_dir_one",), kwargs={}, iterations=1, rounds=10)
 
 
 @pytest.mark.benchmark(
-    group='Read 1000 times'
+    group='Read 10 times'
 )
 def test_benchmark_two(benchmark):
     """Test Query for Repo."""
 
-    benchmark.pedantic(repo.query, args=("mock_dir_two",), kwargs={}, iterations=1000, rounds=100)
+    benchmark.pedantic(repo.query, args=("mock_dir_two",), kwargs={}, iterations=1, rounds=10)
 
 
 @pytest.mark.benchmark(
-    group='Read 1000 times'
+    group='Read 10 times'
 )
 def test_benchmark_three(benchmark):
     """Test Query for Repo."""
 
-    benchmark.pedantic(repo.query, args=("mock_dir_three",), kwargs={}, iterations=1000, rounds=100)
+    benchmark.pedantic(repo.query, args=("mock_dir_three",), kwargs={}, iterations=1, rounds=10)
 
 
 @pytest.mark.benchmark(
-    group='Read 1000 times'
+    group='Read 10 times'
 )
 def test_benchmark_five(benchmark):
     """Test Query for Repo."""
 
-    benchmark.pedantic(repo.query, args=("mock_dir_five",), kwargs={}, iterations=1000, rounds=100)
-
-
-@pytest.mark.benchmark(
-    group='Read 5000 times'
-)
-def test_bench_one(benchmark):
-    """Test Query for Repo."""
-
-    benchmark.pedantic(repo.query, args=("mock_dir_one",), kwargs={}, iterations=5000, rounds=100)
-
-
-@pytest.mark.benchmark(
-    group='Read 5000 times'
-)
-def test_bench_two(benchmark):
-    """Test Query for Repo."""
-
-    benchmark.pedantic(repo.query, args=("mock_dir_two",), kwargs={}, iterations=5000, rounds=100)
-
-
-@pytest.mark.benchmark(
-    group='Read 5000 times'
-)
-def test_bench_three(benchmark):
-    """Test Query for Repo."""
-
-    benchmark.pedantic(repo.query, args=("mock_dir_three",), kwargs={}, iterations=5000, rounds=100)
-
-
-@pytest.mark.benchmark(
-    group='Read 5000 times'
-)
-def test_bench_five(benchmark):
-    """Test Query for Repo."""
-
-    benchmark.pedantic(repo.query, args=("mock_dir_five",), kwargs={}, iterations=5000, rounds=100)
+    benchmark.pedantic(repo.query, args=("mock_dir_five",), kwargs={}, iterations=1, rounds=10)
