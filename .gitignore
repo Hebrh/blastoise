@@ -13,3 +13,6 @@ __pycache__
 
 *.c
 *.so
+
+**/build/
+dist/*
