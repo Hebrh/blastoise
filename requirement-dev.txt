@@ -9,3 +9,5 @@ pycodestyle==2.8.0
 pytest-benchmark==4.0.0
 pygal==3.0.0
 pygaljs==1.0.2
+Cython==0.29.23
+wheel==0.38.4

@@ -15,11 +15,12 @@ classifiers = [
 ]
 dependencies = [
   "pyarrow==10.0.0",
-  "pandas==1.5.2"
+  "pandas==1.5.2",
+  "sqlparse==0.4.3"
 ]
 description = 'stream parquet dataset from filesystem'
 name = 'blastoise'
-version = '0.0.1'
+version = '0.1.0'
 
 [project.urls]
 "Bug Tracker" = "https://github.com/Hebrh/blastoise/issues"
@@ -39,7 +40,7 @@ jobs = 2
 
 [tool.black]
 line-length = 88
-target-version = ['py310', 'py311']
+target-version = ['py38', 'py39', 'py310', 'py311']
 # We use preview style for formatting Black itself. If you
 # want stable formatting across releases, you should keep
 # this off.

@@ -9,7 +9,9 @@ except ImportError:
 
 import os
 import sys
+import sysconfig
 from distutils import log
+from setuptools.command.build_py import build_py as _build_py
 
 import numpy as np
 from Cython.Build import cythonize
@@ -38,6 +40,20 @@ def get_ext_paths(root_dir, exclude_files):
                 paths.append(d)
     return paths
 
+
+# noinspection PyPep8Naming
+class build_py(_build_py):
+
+    def find_package_modules(self, package, package_dir):
+        ext_suffix = sysconfig.get_config_var('EXT_SUFFIX')
+        modules = super().find_package_modules(package, package_dir)
+        filtered_modules = []
+        for (pkg, mod, filepath) in modules:
+            if os.path.exists(filepath.replace('.py', ext_suffix)):
+                continue
+            filtered_modules.append((pkg, mod, filepath, ))
+        return filtered_modules
+
 long_desc = """Blastoise is a python tool lib that helps reading and querying data from parquet files. After querying, you can stroe it in Plasma memory map and do some futher calculations."""
 
 requires = [
@@ -48,7 +64,7 @@ requires = [
 
 setup(
     name="blastoise",
-    version="0.0.1",
+    version="0.1.0",
     url="https://github.com/Hebrh/blastoise",
     license="MIT License",
     author="zhujw",
@@ -66,7 +82,10 @@ setup(
     include_dirs=np.get_include(),
     install_requires=requires,
     ext_modules=cythonize(
-        get_ext_paths('src/blastoise', EXCLUDE_FILES),
+        get_ext_paths('blastoise', EXCLUDE_FILES),
         compiler_directives={'language_level': 3}
     ),
+    # cmdclass={
+    #     'build_py': build_py
+    # }
 )
