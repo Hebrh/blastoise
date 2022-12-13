@@ -6,7 +6,7 @@ import pytest
 from blastoise.parquet import Repo
 
 
-repo = Repo('./datasets/mock_data/')
+repo = Repo('/home/kratos/delibird_mock/mock_data/')
 
 @pytest.mark.benchmark(
     group='Read 10 times'

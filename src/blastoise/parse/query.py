@@ -15,12 +15,12 @@ def parse_select(raw):
             raw (str): raw sql statement.
     """
     if not raw and raw == '':
-        return None
+        return None, None, None
 
     # split multiple sql statements
     statements = sqlparse.split(raw)
     if len(statements) == 0:
-        return None
+        return None, None, None
 
     # only one statement and parse it
     sql = statements[0]
@@ -28,24 +28,23 @@ def parse_select(raw):
 
     # Check if parsed to empty Token
     if is_empty_parsed(parsed):
-        return None
+        return None, None, None
     single_parsed = parsed[0]
 
     # Check if this statement is 'SELECT'
     if not is_select_parsed(single_parsed):
-        return None
+        return None, None, None
 
     identifier_count = 0
+    table_describer = None
+    where_expr = None
     select_fields = []
     tokens = list(filter(lambda e: not is_misc_token(e), single_parsed.tokens))
     for token in tokens:
         # Get field and table name
-        match = put_identifier_names(token, select_fields)
-        if match:
-            # count identifier match nums.
+        if token.ttype == Token.Wildcard or put_identifier_names(token, select_fields):
             identifier_count += 1
-            # when count to 2, means got the table name.
-            if identifier_count == 2:
+            if identifier_count >= 2:
                 table_describer = select_fields.pop()
                 wash_alias(select_fields, table_describer)
             continue
@@ -142,12 +141,11 @@ def is_select_parsed(single_parsed):
     is_select = single_parsed.get_type() == TYPE_SELECT
     return is_dml and is_select
 
-# if __name__ == '__main__':
-#     RAW = '''
-#     select t.a as c, t.b from t_test t where t.a > 3 or (t.a<'a' and t.b in (1.2,2,3))
-#       and a is null or d is not null and e > date '2022-10-22'
-#     '''
-#     table, fields, where = parse_select(RAW)
-#     print(table)
-#     print(fields)
-#     print(where)
+if __name__ == '__main__':
+    RAW = '''
+    select * from tab
+    '''
+    table, fields, where = parse_select(RAW)
+    print(table)
+    print(fields)
+    print(where)

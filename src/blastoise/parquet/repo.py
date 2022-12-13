@@ -2,6 +2,7 @@
 from pyarrow.dataset import Expression
 
 from .loader import ParquetLoader
+from blastoise.parse import parse_select
 
 
 # pylint: disable = too-few-public-methods
@@ -20,9 +21,20 @@ class Repo:
 
     # pylint: disable = dangerous-default-value
     def query(self, table: str, columns=[], filter_expr: Expression=None):
-        """Query func."""
+        """Query func.
+
+            Args:
+                table (str): table name or sql statement
+                columns (list of str): select table column name list
+                filter_expr (Expression): Expression that filter the result (where)
+        """
         if table is None:
             return None
+        table_describer, select_fields, where_expr = parse_select(table)
+        if table_describer is not None:
+            table = table_describer.name
+            columns = [f.name for f in select_fields]
+            filter_expr = where_expr
         _loader = self._loader_mapper[table]
         if _loader is None:
             return None
