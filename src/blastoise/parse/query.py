@@ -140,12 +140,3 @@ def is_select_parsed(single_parsed):
     is_dml = single_parsed.tokens[0].ttype == Token.Keyword.DML
     is_select = single_parsed.get_type() == TYPE_SELECT
     return is_dml and is_select
-
-if __name__ == '__main__':
-    RAW = '''
-    select * from tab
-    '''
-    table, fields, where = parse_select(RAW)
-    print(table)
-    print(fields)
-    print(where)

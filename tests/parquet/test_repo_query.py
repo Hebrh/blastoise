@@ -18,7 +18,7 @@ def test_repo_query(path):
     time1 = end - start
 
     start = timeit.default_timer()
-    df2 = repo.query("select * from mock_dir_five where amount > 100")
+    df2 = repo.query("select * from mock_dir_five where amount > 10")
     end = timeit.default_timer()
     time2 = end - start
 
