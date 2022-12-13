@@ -11,9 +11,40 @@ import os
 import sys
 from distutils import log
 
+import numpy as np
+from Cython.Build import cythonize
+
+
+EXCLUDE_FILES = []
+
+
+def get_ext_paths(root_dir, exclude_files):
+    """get filepaths for compilation"""
+    paths = []
+
+    for root, dirs, files in os.walk(root_dir):
+        for filename in files:
+            if os.path.splitext(filename)[1] != '.py':
+                continue
+
+            file_path = os.path.join(root, filename)
+            if file_path in exclude_files:
+                continue
+
+            paths.append(file_path)
+        for sub_dir in dirs:
+            sub_paths = get_ext_paths(sub_dir, exclude_files)
+            for d in sub_paths:
+                paths.append(d)
+    return paths
+
 long_desc = """Blastoise is a python tool lib that helps reading and querying data from parquet files. After querying, you can stroe it in Plasma memory map and do some futher calculations."""
 
-requires = ["pyarrow", "pandas"]
+requires = [
+    'pyarrow==10.0.0',
+    'pandas==1.5.2',
+    'sqlparse==0.4.3'
+]
 
 setup(
     name="blastoise",
@@ -32,5 +63,10 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=True,
+    include_dirs=np.get_include(),
     install_requires=requires,
+    ext_modules=cythonize(
+        get_ext_paths('src/blastoise', EXCLUDE_FILES),
+        compiler_directives={'language_level': 3}
+    ),
 )
