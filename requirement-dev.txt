@@ -7,6 +7,7 @@ black==22.10.0
 pydocstyle==6.1.1
 pycodestyle==2.8.0
 pytest-benchmark==4.0.0
+pytest-monitor==1.6.5
 pygal==3.0.0
 pygaljs==1.0.2
 Cython==0.29.23

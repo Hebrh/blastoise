@@ -8,22 +8,42 @@ from blastoise.parse import IdentifierDescriber, is_misc_token, parse_where
 
 TYPE_SELECT = 'SELECT'
 
+def clean_sql(raw):
+    """Clean raw sql statements.
+
+        Args:
+            raw (str): raw sql statement.
+    """
+    if not raw and raw == '':
+        return None
+
+    # split multiple sql statements
+    statements = sqlparse.split(raw)
+    if len(statements) == 0:
+        return None
+
+    # only one statement and parse it
+    sql = statements[0]
+    return sqlparse.format(sql, reindent=True, keyword_case='lower')
+
 def parse_select(raw):
     """Parse select sql.
 
         Args:
             raw (str): raw sql statement.
     """
-    if not raw and raw == '':
+    sql = clean_sql(raw)
+    if sql is None:
         return None, None, None
 
-    # split multiple sql statements
-    statements = sqlparse.split(raw)
-    if len(statements) == 0:
-        return None, None, None
+    return parse_clean_select(sql)
 
-    # only one statement and parse it
-    sql = statements[0]
+def parse_clean_select(sql):
+    """Parse clean select sql.
+
+        Args:
+            sql (str): clean sql statement.
+    """
     parsed = sqlparse.parse(sql)
 
     # Check if parsed to empty Token

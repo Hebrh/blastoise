@@ -40,7 +40,7 @@ class ParquetLoader:
         return [ds.dataset(file_info.name, format="parquet")]
 
     @classmethod
-    def load_repo(cls, file_info: FileInfo | list) -> list:
+    def load_repo(cls, file_info: FileInfo) -> list:
         """Load any parquet path to dataset."""
         if isinstance(file_info, list):
             res = []
