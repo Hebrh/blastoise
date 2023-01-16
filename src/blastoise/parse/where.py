@@ -32,8 +32,8 @@ MATH_MAP = {
 VALUE_MAP = {
     Token.Literal.Number.Float: float,
     Token.Literal.Number.Integer: int,
-    Token.Literal.String.Single: lambda v: v,
-    Token.Keyword: lambda v: v
+    Token.Literal.String.Single: lambda v: wash_string(v),
+    Token.Keyword: lambda v: wash_string(v)
 }
 
 # pylint: disable = unnecessary-lambda
@@ -58,6 +58,32 @@ WHERE_TYPE_MAP = {
     Parenthesis: lambda args: parse_parenthesis(args[0], args[1]),
     Identifier: lambda args: parse_comparison_helper(args[0], args[1])
 }
+
+def wash_string(val):
+    """Wash string value.
+
+        Args:
+            val (str): value
+        Return:
+            washed val
+    """
+    if not isinstance(val, str):
+        return val
+    cmp_char = val[0:1]
+    while cmp_char == "'" or cmp_char == '"':
+        val = val[1:]
+        cmp_char = val[0:1]
+    s_len = len(val)
+    if s_len == 0:
+        return val
+    cmp_char = val[s_len-1:]
+    while cmp_char == "'" or cmp_char == '"':
+        val = val[:s_len-1]
+        if s_len == 0:
+            return val
+        cmp_char = val[s_len-1:]
+    return val
+
 
 def nullable(field, key):
     """Field is null or not.

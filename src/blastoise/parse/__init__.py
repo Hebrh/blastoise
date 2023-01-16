@@ -2,7 +2,7 @@
 from .describe import IdentifierDescriber
 from .common import is_misc_token
 from .where import parse_where, LogicExpression
-from .query import clean_sql, parse_select, parse_clean_select
+from .query import parse_select
 
 
 __all__ = [
@@ -10,7 +10,5 @@ __all__ = [
     'is_misc_token',
     'parse_where',
     'LogicExpression',
-    'clean_sql',
-    'parse_select',
-    'parse_clean_select'
+    'parse_select'
 ]

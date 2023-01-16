@@ -1,6 +1,4 @@
 """Utils for local file system."""
-import os
-
 from pyarrow import fs
 from pyarrow.fs import FileType
 
@@ -42,7 +40,6 @@ class FileInfo():
             self.size = size / (1024 * 1024 * 1.0)
         self._hierarchy = hierarchy
         self._directory = directory
-        self.mtime = os.path.getmtime(directory)
         self._hadoop = hadoop
         self._children = []
 

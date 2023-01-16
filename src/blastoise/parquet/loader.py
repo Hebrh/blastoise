@@ -4,6 +4,7 @@ from multiprocessing import cpu_count
 from multiprocessing.pool import Pool
 
 import pandas as pd
+import pyarrow as pa
 from pyarrow import dataset as ds
 from pyarrow.dataset import Expression, Dataset
 
@@ -11,6 +12,8 @@ from blastoise.fs import FileInfo, Hierarchy
 from blastoise.util import dir_to_name
 from .exception import RepoDirectoryCantLoadAloneEception
 
+
+pa.jemalloc_set_decay_ms(0)
 
 class ParquetLoader:
     """Load metadata of paruqet files of the same struct in memory."""
