@@ -1,7 +1,11 @@
 pyarrow==10.0.0
 pandas==1.5.2
+sqlparse==0.4.3
 pytest==7.1.2
 pylint==2.15.6
 black==22.10.0
 pydocstyle==6.1.1
 pycodestyle==2.8.0
+pytest-benchmark==4.0.0
+pygal==3.0.0
+pygaljs==1.0.2

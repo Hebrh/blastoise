@@ -4,6 +4,7 @@ from multiprocessing import cpu_count
 from multiprocessing.pool import Pool
 
 import pandas as pd
+import pyarrow as pa
 from pyarrow import dataset as ds
 from pyarrow.dataset import Expression, Dataset
 
@@ -11,6 +12,8 @@ from blastoise.fs import FileInfo, Hierarchy
 from blastoise.util import dir_to_name
 from .exception import RepoDirectoryCantLoadAloneEception
 
+
+pa.jemalloc_set_decay_ms(0)
 
 class ParquetLoader:
     """Load metadata of paruqet files of the same struct in memory."""
@@ -37,14 +40,10 @@ class ParquetLoader:
         if hier == Hierarchy.REPO:
             raise RepoDirectoryCantLoadAloneEception()
 
-        if hier == Hierarchy.SET:
-            return [ds.dataset([info.name for info in file_group], format="parquet") \
-                    for file_group in file_info.spllit_dir()]
-
         return [ds.dataset(file_info.name, format="parquet")]
 
     @classmethod
-    def load_repo(cls, file_info: FileInfo | list) -> list:
+    def load_repo(cls, file_info: FileInfo) -> list:
         """Load any parquet path to dataset."""
         if isinstance(file_info, list):
             res = []
