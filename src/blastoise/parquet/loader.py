@@ -1,6 +1,6 @@
 """Paruqet metadata loader."""
+from threading import Lock
 
-import pandas as pd
 import pyarrow as pa
 from pyarrow import dataset as ds
 from pyarrow.dataset import Expression, Dataset
@@ -28,7 +28,8 @@ class ParquetLoader:
         self.hierarchy = file_info._hierarchy
         self.directory = file_info._directory
         self.hadoop = file_info._hadoop
-        self.dataset = ParquetLoader.load_dataset(file_info)
+        self.file_info = file_info
+        self.lock = Lock()
 
     @classmethod
     def load_dataset(cls, file_info: FileInfo):
@@ -59,15 +60,17 @@ class ParquetLoader:
     # pylint: disable = dangerous-default-value
     def query(self, columns=[], filter_expr: Expression=None):
         """Simple Query Helper."""
-        ds_group = self.dataset
+        file_info = self.file_info
 
-        if ds_group is None:
+        if file_info is None:
             return None
-        return _query_helper(ds_group, columns=columns, filter_expr=filter_expr)
+        # with self.lock:
+        return _query_helper(file_info, columns=columns, filter_expr=filter_expr)
 
 
 
 # pylint: disable = dangerous-default-value
-def _query_helper(dataset: Dataset, columns, filter_expr: Expression):
+def _query_helper(file_info: str, columns, filter_expr: Expression):
     """Simple Query Helper."""
+    dataset = ParquetLoader.load_dataset(file_info)
     return dataset.to_table(columns=columns, filter=filter_expr).to_pandas()

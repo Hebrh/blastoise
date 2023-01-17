@@ -1,10 +1,11 @@
 """Test Query for Repo."""
-import timeit
+# import timeit
 
 import pytest
 # from pyarrow import dataset as ds
 
-from blastoise.parquet import Repo
+# from blastoise.parquet import Repo
+from blastoise.parquet import RepoSingleton
 
 
 # @pytest.mark.parametrize("path", [("/home/kratos/delibird_mock/mock_data/")])
@@ -30,9 +31,16 @@ from blastoise.parquet import Repo
 #     assert  time1 < 0.5
 
 
-@pytest.mark.parametrize("path", [("/home/kratos/delibird_mock/data")])
-def test_repo_qry(path):
+@pytest.mark.parametrize("repo", [(RepoSingleton())])
+def test_repo_qry(repo):
     """Test Query for Repo."""
-    repo = Repo(path)
-    df = repo.query("SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED FROM T02_FUND_NAV_QUOTATION WHERE PRICE_DATE >= 20180329 AND  PRICE_DATE <= 20180329")
-    assert len(df.index) > 0
+    # li = []
+    res = repo.query("SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED"\
+        " FROM T02_FUND_NAV_QUOTATION WHERE PRICE_DATE >= 20180329 AND  PRICE_DATE <= 20180329")
+    # li.append(df)
+    assert len(res.index) > 0
+    # for i in range(1, 30):
+        # df = repo.query(f"SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED"\
+        # " FROM T{i} WHERE PRICE_DATE >= 20180329 AND  PRICE_DATE <= 20180329")
+        # li.append(df)
+        # assert len(df.index) > 0

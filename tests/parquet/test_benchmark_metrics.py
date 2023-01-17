@@ -11,11 +11,11 @@ repo = Repo('/home/kratos/delibird_mock/data/')
 @pytest.mark.benchmark(
     group='Read 10 times'
 )
-def test_benchmark_one(benchmark):
+def test_benchmark_metrics(benchmark):
     """Test Query for Repo."""
 
     benchmark.pedantic(repo.query,
     args=("SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED"\
         " FROM T02_FUND_NAV_QUOTATION WHERE PRICE_DATE >= 20180329"\
-            " AND  PRICE_DATE <=  20180329 AND SRC_SECU_CODE = '970032.OF'",),
-            kwargs={}, iterations=50, rounds=1)
+            " AND  PRICE_DATE <=  20180329",),
+            kwargs={}, iterations=500, rounds=1)

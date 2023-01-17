@@ -1,12 +1,11 @@
 """Repository of ParuqetLoader, map to table name"""
-
 from blastoise.parquet import ParquetLoader
 from blastoise.parse import parse_select
 
 
 # pylint: disable = too-few-public-methods
 class Repo:
-    """Repository of ParuqetLoader"""
+    """Repository of ParuqetLoader."""
 
     def __init__(self, path: str) -> None:
         """Constructor."""

@@ -13,7 +13,7 @@ from distutils import log
 
 long_desc = """Blastoise is a python tool lib that helps reading and querying data from parquet files. After querying, you can stroe it in Plasma memory map and do some futher calculations."""
 
-requires = ["pyarrow", "pandas"]
+requires = ["pyarrow", "pandas", "sqlparse"]
 
 setup(
     name="blastoise",
