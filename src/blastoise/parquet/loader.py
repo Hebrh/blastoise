@@ -1,7 +1,4 @@
 """Paruqet metadata loader."""
-from itertools import repeat
-from multiprocessing import cpu_count
-from multiprocessing.pool import Pool
 
 import pandas as pd
 import pyarrow as pa
@@ -10,7 +7,7 @@ from pyarrow.dataset import Expression, Dataset
 
 from blastoise.fs import FileInfo, Hierarchy
 from blastoise.util import dir_to_name
-from .exception import RepoDirectoryCantLoadAloneEception
+from blastoise.parquet import RepoDirectoryCantLoadAloneEception
 
 
 pa.jemalloc_set_decay_ms(0)
@@ -40,7 +37,7 @@ class ParquetLoader:
         if hier == Hierarchy.REPO:
             raise RepoDirectoryCantLoadAloneEception()
 
-        return [ds.dataset(file_info.name, format="parquet")]
+        return ds.dataset(file_info.name, format="parquet")
 
     @classmethod
     def load_repo(cls, file_info: FileInfo) -> list:
@@ -63,17 +60,10 @@ class ParquetLoader:
     def query(self, columns=[], filter_expr: Expression=None):
         """Simple Query Helper."""
         ds_group = self.dataset
-        group_size = len(ds_group)
 
-        if group_size == 0:
+        if ds_group is None:
             return None
-        if group_size == 1:
-            return _query_helper(ds_group[0], columns=columns, filter_expr=filter_expr)
-
-        with Pool(processes=cpu_count()) as pool:
-            result = pool.starmap(_query_helper, \
-                zip(ds_group, repeat(columns), repeat(filter_expr)))
-        return pd.concat(result, axis=0)
+        return _query_helper(ds_group, columns=columns, filter_expr=filter_expr)
 
 
 

@@ -2,15 +2,12 @@
 from pyarrow import fs
 from pyarrow.fs import FileType
 
-from blastoise import MAX_FILES_SIZE
 from .exception import FileInfoNotReasonable
 from .hierarchy import Hierarchy
 
 
 class FileInfo():
     """Simple file info data."""
-
-    buf = MAX_FILES_SIZE
 
     # pylint: disable = too-many-arguments
     def __init__(
@@ -98,41 +95,6 @@ class FileInfo():
         Return empty list for file path.
         """
         return self._children
-
-    def spllit_dir(self) -> list:
-        """Split children file list by MAX_FILES_SIZE."""
-        if self._hierarchy == Hierarchy.SET:
-            max_size = FileInfo.buf
-            files = self._children
-            split_files = []
-            file_group = []
-            total_size = 0
-            total_more_size = 0
-
-            i = 0
-            f_len = len(files)
-            while i < f_len:
-                file = files[i]
-                total_more_size += total_size + file.size
-                if total_more_size <= max_size:
-                    file_group.append(file)
-                    total_size = total_more_size
-                    i += 1
-                    continue
-                if total_more_size - max_size < max_size - total_size:
-                    file_group.append(file)
-                    i += 1
-                elif total_size == 0:
-                    file_group.append(file)
-                    i += 1
-                split_files.append(file_group)
-                file_group = []
-                total_size = 0
-                total_more_size = 0
-            if len(file_group) > 0:
-                split_files.append(file_group)
-
-        return split_files
 
     def __repr__(self) -> str:
         return f"FileInfo:[path={self.name}, id_dir={self._directory}, hier={self._hierarchy}," \

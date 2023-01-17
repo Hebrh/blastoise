@@ -34,5 +34,5 @@ from blastoise.parquet import Repo
 def test_repo_qry(path):
     """Test Query for Repo."""
     repo = Repo(path)
-    df = repo.query("SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED FROM T02_FUND_NAV_QUOTATION WHERE PRICE_DATE >= 20180329 AND  PRICE_DATE <=  20180329")
+    df = repo.query("SELECT SRC_SECU_CODE, PRICE_DATE, F_NAV_ADJUSTED FROM T02_FUND_NAV_QUOTATION WHERE PRICE_DATE >= 20180329 AND  PRICE_DATE <= 20180329")
     assert len(df.index) > 0
